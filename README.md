@@ -8,6 +8,7 @@ Poteto-style engineering skills for Claude Code, adapted from Cursor's pstack an
 | `/ps:how` | Explains how a subsystem works and which layer owns what |
 | `/ps:why` | Finds the motivation behind code from git, PRs and any connected evidence source |
 | `/ps:teach` | Explains a change or subsystem plainly, built on `how` and `why` |
+| `/ps:recall [topic]` | Rebuilds your recent working context from chat history, live state and the shared record, then hands back a short brief |
 | `/ps:deslop` | Removes AI-generated slop from the diff |
 | `/ps:unslop` | Rewrites prose without AI tells |
 | `/ps:no-comments` | Spawns the `stuart` agent to delete needless comments and flag workarounds |
