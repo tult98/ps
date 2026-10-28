@@ -1,0 +1,13 @@
+{
+  "name": "ps-marketplace",
+  "description": "Marketplace for the ps plugin",
+  "owner": {
+    "name": "Tu Le"
+  },
+  "plugins": [
+    {
+      "name": "ps",
+      "source": "./"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "name": "ps",
+  "description": "Poteto-style engineering skills: /ps:minion task playbooks (bug fix, feature, investigation, open a PR), /ps:how, /ps:why, /ps:teach, /ps:deslop, /ps:unslop and /ps:no-comments, with the kevin and stuart subagents",
+  "version": "0.1.0"
+}

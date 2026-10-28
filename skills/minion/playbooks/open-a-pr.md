@@ -1,0 +1,17 @@
+### Open a PR
+
+**You own the PR. Commit, describe, open.**
+
+Reached in two ways: as the last step of Bug fix or Feature, or directly when
+the user asks to open a PR or MR.
+
+1. Find the repo that holds the changes. When it is a submodule, run git inside the submodule, never in the parent repo. If more than one submodule has changes, ask which.
+2. Pick the source and target. If the user named both ("develop -> staging"), use them as they are and skip step 3. Otherwise the target is the branch the work was cut from, which is not always the repo's default: the branch you checked out or created the work from, else the open PR's target when one exists, else the repo's default branch from `git remote show origin`, never an assumed `main`. If `git log --oneline <default>..HEAD` holds commits that are not this work, the branch has another base, so ask. If you are on the target branch with changes, create a branch first: the ticket key when there is one, else `<type>/<short-kebab-description>`.
+3. Run the **deslop** skill, then the **no-comments** skill, each over the diff against the step 2 target. Then commit any pending changes. Match the message style in `git log --oneline -10` (scoped `type(scope):` or not). Use a Conventional Commits type, and append ` [TICKET-KEY]` when there is a ticket and the log shows that convention. Keep commits small and ordered.
+4. Write the title and description. Title: `[TICKET-KEY] <ticket title>` when there is a ticket, else a short summary of the commits. If the repo has a PR or MR template (`.github/pull_request_template.md`, `.github/PULL_REQUEST_TEMPLATE/`, `.gitlab/merge_request_templates/`), fill in its headings. Otherwise use `## Why`, `## What changed`, `## Scope`, `## Verification`. Use short sentences. Verification lists the real runs you did and their results. Include the ticket URL when there is a ticket.
+5. Check what will go up: source -> target, the title, the commits, and `git diff <target>...HEAD --stat`. If the diff holds anything unrelated to the work, take it out first.
+6. Attach evidence when the work was verified and the verification left artifacts (screenshots, recordings, command output). Put the ones that prove each acceptance criterion or the fixed repro in the description, uploading through the host's own mechanism when it has one. No artifacts, or an upload that fails, means a plain description, and the reply says so.
+7. Push and create the PR with the host's CLI, picked from `git remote get-url origin`: `gh pr create --title ... --body ... --base <target>` for GitHub, `glab mr create --title ... --description ... --target-branch <target>` for GitLab. Push first with `git push -u origin <source>`, and skip the push when the source is a long-lived branch that is already on the remote. Add the delete-source-branch flag only for a short-lived branch, never for a long-lived one such as `develop`, `staging`, or `main`. With no CLI for the host, push and give the user the compare URL.
+8. Post the PR URL. Do not wait on CI. When the PR already exists and its description lacks the evidence, update the description (`gh pr edit <n> --body`, `glab mr update <iid> -d`) instead of creating a second PR.
+
+**Reply:** the PR URL, source -> target, the commits, the diff stat, a line on what it contains, and which scenarios the attached evidence covers, or that none was attached.
