@@ -69,7 +69,7 @@ Use `candidate` for one or two examples. Use `recurring` after multiple real dis
 
 ### Self-withdrawn or explicit false-positive rule comments
 
-- Confidence: recurring
+- Confidence: candidate
 - Skip when: The comment body or a later bot reply explicitly says the finding is withdrawn, compliant, or a false positive, and the agent can verify the relevant rule locally.
 - Do not skip when: The only evidence is a human saying "false positive" on a high-risk issue without explanation.
 - Example signal: A file-naming rule comment whose body says the file is already compliant.
