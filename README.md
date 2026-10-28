@@ -8,6 +8,7 @@ Poteto-style engineering skills for Claude Code, adapted from Cursor's pstack an
 | `/ps:how` | Explains how a subsystem works and which layer owns what |
 | `/ps:why` | Finds the motivation behind code from git, PRs and any connected evidence source |
 | `/ps:teach` | Explains a change or subsystem plainly, built on `how` and `why` |
+| `/ps:recall [topic]` | Rebuilds your recent working context from chat history, live state and the shared record, then hands back a short brief |
 | `/ps:create-verification-skill` | Generates a repo-local `verify-<app>` skill that launches, drives and records the app, plus a feature map |
 | `/ps:maintain-verification-skill` | Audits a verification skill against source and a live run, and hands back one branch of proven fixes |
 | `/ps:deslop` | Removes AI-generated slop from the diff |

@@ -1,5 +1,5 @@
 {
   "name": "ps",
-  "description": "Poteto-style engineering skills: /ps:minion task playbooks (bug fix, feature, investigation, open a PR), /ps:how, /ps:why, /ps:teach, /ps:deslop, /ps:unslop, /ps:technical-writing and /ps:no-comments, with the kevin and stuart subagents",
-  "version": "0.1.0"
+  "description": "Poteto-style engineering skills: /ps:minion task playbooks (bug fix, feature, investigation, open a PR), /ps:how, /ps:why, /ps:teach, /ps:recall, /ps:create-verification-skill, /ps:maintain-verification-skill, /ps:deslop, /ps:unslop, /ps:technical-writing and /ps:no-comments, with the kevin and stuart subagents",
+  "version": "0.2.0"
 }
