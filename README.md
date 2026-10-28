@@ -13,6 +13,7 @@ Poteto-style engineering skills for Claude Code, adapted from Cursor's pstack an
 | `/ps:deslop` | Removes AI-generated slop from the diff |
 | `/ps:unslop` | Rewrites prose without AI tells |
 | `/ps:no-comments` | Spawns the `stuart` agent to delete needless comments and flag workarounds |
+| `/ps:technical-writing` | Layered writing standard for docs, readmes, PR descriptions and commit messages |
 
 Agents: `kevin` (minion's delegate) and `stuart` (comment hunter).
 
