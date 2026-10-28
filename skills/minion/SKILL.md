@@ -1,6 +1,6 @@
 ---
 name: minion
-description: Classify a task as Bug fix, Feature, Investigation, Open a PR, or Babysit, then run that playbook. Use only when the user runs /ps:minion.
+description: Route a task to the Bug fix, Feature, Investigation, Open a PR, or Babysit playbook and run it. Use only when the user runs /ps:minion.
 user-invocable: true
 disable-model-invocation: true
 argument-hint: '<task description or issue key>'
@@ -9,19 +9,28 @@ allowed-tools: Bash, Read, Edit, Write, Grep, Glob, Agent, AskUserQuestion
 
 # Minion
 
-Classify the task in `$ARGUMENTS` into exactly one playbook, then run it.
-Playbooks live in `playbooks/` next to this file. Bundled skills live at
-`../<name>/SKILL.md` from this file: `../how/SKILL.md`, `../why/SKILL.md`,
-`../unslop/SKILL.md`, `../deslop/SKILL.md`, `../no-comments/SKILL.md` and
+Match the task in `$ARGUMENTS` to a playbook, then run it. Playbooks live in
+`playbooks/` next to this file. Bundled skills live at `../<name>/SKILL.md`
+from this file: `../how/SKILL.md`, `../why/SKILL.md`, `../unslop/SKILL.md`,
+`../deslop/SKILL.md`, `../no-comments/SKILL.md` and
 `../technical-writing/SKILL.md`. To run one, read its `SKILL.md` in full and
 resolve its `references/` paths against that skill's own directory. Never
 call a bundled skill through the Skill tool, and never ask the user to run
 it. Put this file's absolute path in every `ps:kevin` prompt.
 
+Get the task text first. Plain text is used as is. An issue key (`ABC-123`,
+`#45`) or issue URL with a tracker tool available (Linear, Jira, GitHub) means
+you read the issue title, description, and labels. With no tracker tool, work
+from the key's surrounding text and say the ticket was not read. An empty
+argument means the user's most recent request in this conversation.
+
 ## Triggers
 
 These apply at any point, in every playbook:
 
+- Your first message on a task → tell the user, in your own words, their goal
+  and, if the task ships a change, the smallest change you expect. Don't wait
+  for confirmation.
 - Nontrivial change, architecture decision, or "are we sure?" → the **how**
   skill.
 - A question about why code is the way it is (a design choice, a regression,
@@ -37,81 +46,44 @@ These apply at any point, in every playbook:
 - Before commit → the **deslop** skill.
 - Before review → the **no-comments** skill.
 - A request to babysit a PR, get it green, or answer review comments →
-  the Babysit playbook.
-
-## Step 1. Get the task text
-
-- Plain text: use it as is.
-- An issue key (`ABC-123`, `#45`) or issue URL and a tracker tool is
-  available (Linear, Jira, GitHub): read the issue title, description, and
-  labels. If no tracker tool is available, classify from the key's
-  surrounding text and say the ticket was not read.
-- Empty: classify the user's most recent request in this conversation.
-
-Read code only when the request names something whose current behavior decides
-the type (see "Tie-breakers"). Keep it to a quick look.
-
-## Step 2. Classify by deliverable
-
-Ask what the user expects to have when the work is done.
-
-| Type | Playbook | Deliverable | Typical signals |
-|---|---|---|---|
-| **Bug fix** | `playbooks/bug-fix.md` | A code change that makes existing behavior match what it was meant to do | "broken", "doesn't", "error", "crash", "regression", stack trace, steps to reproduce, a `Bug` label |
-| **Feature** | `playbooks/feature.md` | A code change that adds behavior or deliberately changes intended behavior | "add", "support", "allow", "change X to Y", "new page", design link, story ticket with ACs |
-| **Investigation** | `playbooks/investigation.md` | An answer, not a change: an explanation or a recommendation | "how does", "why", "where is", "are we sure", "should we X or Y", "what would it take" |
-| **Open a PR** | `playbooks/open-a-pr.md` | A PR or MR for work that already exists | "open a PR", "create an MR", "PR from develop -> staging", "push and open a PR" |
-| **Babysit** | `playbooks/babysit.md` | A PR brought to merge-ready, with review threads answered and CI triaged | "babysit", "get it green", "address the review comments", "handle the reviewer feedback", "is it green", "check on PR X" |
-
-Open a PR is also the last step of Bug fix and Feature. Investigation never
-opens one. Babysit never merges, and opening a PR never triggers it.
-
-### Tie-breakers
-
-- **"Why is X broken?"** Bug fix. The user wants it fixed. Investigation only if
-  they say they only want the explanation.
-- **"X doesn't do Y"** where Y was never built or specified: Feature, not Bug
-  fix. A quick look at the code or ticket decides whether Y was intended.
-- **"Should we X or Y?"** Investigation, even if a change follows. The change
-  is a later task.
-- **Work plus a PR** ("fix the crash and open a PR"): classify the work. Open a
-  PR runs as that playbook's last step.
-- **Open a PR and babysit it:** Open a PR. Run Babysit after, on request.
-- **"Land it", "ship it", "merge it":** no playbook here. Merging falls under
+  the Babysit playbook. Merely opening a PR never triggers it.
+- A request to land, ship, or merge → no playbook here. Merging falls under
   Autonomy's always-pause rule, so say so and pause.
-- **Mixed request** ("fix the crash and add a retry button"): pick the type of
-  the part the user leads with or stresses, and list the other part under
-  Notes.
-- **Still unclear:** pick the closest type and name the runner-up. Do not ask.
 
-### No playbook
+## Playbooks
 
-A chore that is none of the five (commit and push, a gitignore entry, local
-editor or shell setup) gets `Type: No playbook`. Do it directly, with no todo
-list.
+Match the task to a playbook below and read its file in full. Open a todo list
+whose first items are that playbook's numbered steps, copied in verbatim,
+before any task-specific todos. A step you choose not to do stays in the list
+with `skip: <reason>`. When a step says "Run Open a PR", read
+`playbooks/open-a-pr.md` and add its steps to the todo list then. When a step
+or a trigger calls a bundled skill, read its `SKILL.md` in full and add its
+numbered steps the same way. End with the reply the playbook's **Reply** line
+describes.
 
-## Step 3. Report the classification
+- **Bug fix.** Existing behavior that is broken, such as a crash, an error, a
+  regression, or a stack trace, and the user wants it fixed. "Why is X
+  broken?" is a Bug fix unless they only want the explanation. "X doesn't do
+  Y" where Y was never built or specified is a Feature, so take a quick look
+  at the code or ticket to see whether Y was intended. File:
+  `playbooks/bug-fix.md`.
+- **Feature.** New behavior, or a deliberate change to intended behavior.
+  Open a PR is its last step. File: `playbooks/feature.md`.
+- **Investigation.** An answer, not a change: how, why, where, "are we sure",
+  or "should we X or Y". It stays an Investigation even if a change follows,
+  because the change is a later task. It never opens a PR. File:
+  `playbooks/investigation.md`.
+- **Open a PR.** A PR or MR for work that already exists. It is also the last
+  step of Bug fix and Feature, so "fix the crash and open a PR" is a Bug fix.
+  File: `playbooks/open-a-pr.md`.
+- **Babysit.** A PR to bring to merge-ready, with review threads answered and
+  CI triaged. It never merges. After "open a PR and babysit it", run it once
+  the PR is open. File: `playbooks/babysit.md`.
 
-Start the reply with this block:
-
-```
-Type: <Bug fix | Feature | Investigation | Open a PR | Babysit | No playbook>
-Why: <one sentence naming the signal that decided it>
-Runner-up: <type, and what would flip it>   (omit if the call was clear)
-Notes: <a split-off part of a mixed request, or "ticket not read">   (omit if none)
-```
-
-## Step 4. Run the playbook
-
-1. Read the playbook file in full.
-2. Open a todo list whose first items are the playbook's numbered steps, copied
-   word for word, before any task-specific todos. A step you choose not to do
-   stays in the list, marked `skip: <reason>`.
-3. Work through the steps in order. When a step says "Run Open a PR", read
-   `playbooks/open-a-pr.md` and add its steps to the todo list then. When a
-   step or a trigger calls a bundled skill, read its `SKILL.md` in full,
-   add its numbered steps to the todo list the same way, then follow them.
-4. End with the reply the playbook's **Reply** line describes.
+If no playbook fits (a chore such as commit and push, a gitignore entry,
+local setup), do it directly with no todo list. For a mixed request ("fix the
+crash and add a retry button"), run the playbook for the part the user
+stresses and say in the reply what you left out.
 
 ## Subagents
 
