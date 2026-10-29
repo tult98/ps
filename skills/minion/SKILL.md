@@ -1,6 +1,6 @@
 ---
 name: minion
-description: Classify a task as Bug fix, Feature, Investigation, or Open a PR, then run that playbook. Use only when the user runs /ps:minion.
+description: Classify a task as Bug fix, Feature, Investigation, Open a PR, or Babysit, then run that playbook. Use only when the user runs /ps:minion.
 user-invocable: true
 disable-model-invocation: true
 argument-hint: '<task description or issue key>'
@@ -33,6 +33,8 @@ These apply at any point, in every playbook:
   Write the reply per **Writing the reply**.
 - Before commit → the **deslop** skill.
 - Before review → the **no-comments** skill.
+- A request to babysit a PR, get it green, or answer review comments →
+  the Babysit playbook.
 
 ## Step 1. Get the task text
 
@@ -56,9 +58,10 @@ Ask what the user expects to have when the work is done.
 | **Feature** | `playbooks/feature.md` | A code change that adds behavior or deliberately changes intended behavior | "add", "support", "allow", "change X to Y", "new page", design link, story ticket with ACs |
 | **Investigation** | `playbooks/investigation.md` | An answer, not a change: an explanation or a recommendation | "how does", "why", "where is", "are we sure", "should we X or Y", "what would it take" |
 | **Open a PR** | `playbooks/open-a-pr.md` | A PR or MR for work that already exists | "open a PR", "create an MR", "PR from develop -> staging", "push and open a PR" |
+| **Babysit** | `playbooks/babysit.md` | A PR brought to merge-ready, with review threads answered and CI triaged | "babysit", "get it green", "address the review comments", "handle the reviewer feedback", "is it green", "check on PR X" |
 
 Open a PR is also the last step of Bug fix and Feature. Investigation never
-opens one.
+opens one. Babysit never merges, and opening a PR never triggers it.
 
 ### Tie-breakers
 
@@ -70,6 +73,9 @@ opens one.
   is a later task.
 - **Work plus a PR** ("fix the crash and open a PR"): classify the work. Open a
   PR runs as that playbook's last step.
+- **Open a PR and babysit it:** Open a PR. Run Babysit after, on request.
+- **"Land it", "ship it", "merge it":** no playbook here. Merging falls under
+  Autonomy's always-pause rule, so say so and pause.
 - **Mixed request** ("fix the crash and add a retry button"): pick the type of
   the part the user leads with or stresses, and list the other part under
   Notes.
@@ -77,7 +83,7 @@ opens one.
 
 ### No playbook
 
-A chore that is none of the four (commit and push, a gitignore entry, local
+A chore that is none of the five (commit and push, a gitignore entry, local
 editor or shell setup) gets `Type: No playbook`. Do it directly, with no todo
 list.
 
@@ -86,7 +92,7 @@ list.
 Start the reply with this block:
 
 ```
-Type: <Bug fix | Feature | Investigation | Open a PR | No playbook>
+Type: <Bug fix | Feature | Investigation | Open a PR | Babysit | No playbook>
 Why: <one sentence naming the signal that decided it>
 Runner-up: <type, and what would flip it>   (omit if the call was clear)
 Notes: <a split-off part of a mixed request, or "ticket not read">   (omit if none)
