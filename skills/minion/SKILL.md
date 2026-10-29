@@ -33,7 +33,7 @@ These apply at any point, in every playbook:
   Write the reply per **Writing the reply**.
 - Before commit → the **deslop** skill.
 - Before review → the **no-comments** skill.
-- A request to babysit a PR, get it green, or answer review-bot comments →
+- A request to babysit a PR, get it green, or answer review comments →
   the Babysit playbook.
 
 ## Step 1. Get the task text
@@ -58,7 +58,7 @@ Ask what the user expects to have when the work is done.
 | **Feature** | `playbooks/feature.md` | A code change that adds behavior or deliberately changes intended behavior | "add", "support", "allow", "change X to Y", "new page", design link, story ticket with ACs |
 | **Investigation** | `playbooks/investigation.md` | An answer, not a change: an explanation or a recommendation | "how does", "why", "where is", "are we sure", "should we X or Y", "what would it take" |
 | **Open a PR** | `playbooks/open-a-pr.md` | A PR or MR for work that already exists | "open a PR", "create an MR", "PR from develop -> staging", "push and open a PR" |
-| **Babysit** | `playbooks/babysit.md` | A PR brought to merge-ready, with review threads answered and CI triaged | "babysit", "get it green", "address the bugbot comments", "is it green", "check on PR X" |
+| **Babysit** | `playbooks/babysit.md` | A PR brought to merge-ready, with review threads answered and CI triaged | "babysit", "get it green", "address the review comments", "handle the reviewer feedback", "is it green", "check on PR X" |
 
 Open a PR is also the last step of Bug fix and Feature. Investigation never
 opens one. Babysit never merges, and opening a PR never triggers it.

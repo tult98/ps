@@ -1,12 +1,12 @@
-# Review-bot triage
+# Review triage
 
 The patterns below come from Cursor's own PRs and are all unproven here. Treat each as `candidate` until a PR in this repo's use confirms it.
 
-Use this reference when the Babysit playbook (`../playbooks/babysit.md`) handles Bugbot or another review bot's comments. The goal is not to ignore the bot by default. The goal is to stop treating every comment as a required code change.
+Use this reference when the Babysit playbook (`../playbooks/babysit.md`) handles review comments, from any automated reviewer or a person. The tool's name does not matter. The goal is not to ignore the reviewer by default. The goal is to stop treating every comment as a required code change.
 
 ## Decision rubric
 
-Classify each review-bot thread before acting.
+Classify each review thread before acting.
 
 - `fix`. The comment identifies a plausible correctness, security, privacy, data loss, auth, billing, migration, idempotency, race, or shipped-behavior issue. Fix it in the lowest owning PR, then reply with the commit SHA and resolve the thread.
 - `dismiss`. The comment matches a documented low-risk noisy pattern, and the current code and context prove the concern needs no code change. Reply with a short reason and resolve the thread.
@@ -39,10 +39,10 @@ Use `candidate` for one or two examples. Use `recurring` after multiple real dis
 - Do not skip when: The comment points to accessibility, focus visibility, keyboard navigation, color contrast, or a component API contract that the PR did not intentionally change.
 - Example signal: Comments about focus outlines, button sizes, spacing, or shared component visual defaults where the owner replies "intentional" or "intended".
 
-### Upstack or stack-local usage the bot cannot see
+### Upstack or stack-local usage the reviewer cannot see
 
 - Confidence: candidate
-- Skip when: The bot flags an export, component, helper, or file as unused, and the stack's PR list and diffs show a later PR uses it.
+- Skip when: The reviewer flags an export, component, helper, or file as unused, and the stack's PR list and diffs show a later PR uses it.
 - Do not skip when: The current PR is not part of a stack, the symbol is public API, or the supposed upstack use cannot be verified.
 - Example signal: "Exported component is never used" with a human reply like "used upstack".
 
@@ -70,7 +70,7 @@ Use `candidate` for one or two examples. Use `recurring` after multiple real dis
 ### Self-withdrawn or explicit false-positive rule comments
 
 - Confidence: candidate
-- Skip when: The comment body or a later bot reply explicitly says the finding is withdrawn, compliant, or a false positive, and the agent can verify the relevant rule locally.
+- Skip when: The comment body or a later reviewer reply explicitly says the finding is withdrawn, compliant, or a false positive, and the agent can verify the relevant rule locally.
 - Do not skip when: The only evidence is a human saying "false positive" on a high-risk issue without explanation.
 - Example signal: A file-naming rule comment whose body says the file is already compliant.
 
@@ -92,18 +92,18 @@ Append new candidate learnings here during or after babysitting when they look t
 ### Manual reimplementations of native browser behavior
 
 - Confidence: candidate
-- Skip when: Practically never. When a diff replaces native browser behavior with a manual equivalent (native sticky to JS-positioned clones, native scroll targeting to forwarded wheel and touch events, paint-order occlusion to masks or clip-path), Bugbot's logic-bug findings against that code have been consistently legitimate.
+- Skip when: Practically never. When a diff replaces native browser behavior with a manual equivalent (native sticky to JS-positioned clones, native scroll targeting to forwarded wheel and touch events, paint-order occlusion to masks or clip-path), the reviewer's logic-bug findings against that code have been consistently legitimate.
 - Do not skip when: The finding concerns event-forwarding gaps (wheel deltaMode, touch pans, scroll-chaining at edges, tap slop), mask or clip hit-testing divergence, or observer-versus-React state timing races in such code. Default to fix.
 - Example signal: "masks do not affect hit-testing", "overlay blocks wheel scroll", "ignores deltaMode", "runs in the IntersectionObserver callback before React applies state".
-- Source: one sticky-occlusion PR with six Bugbot passes and roughly eighteen findings, every one fixed rather than dismissed.
+- Source: one sticky-occlusion PR with six review passes and roughly eighteen findings, every one fixed rather than dismissed.
 
 ### Contract-test drift claims are cheaply verifiable, so run the test first
 
 - Confidence: candidate
-- Skip when: Never skip the verification itself, which costs one command. When a PR ships a contract test that pins protocol or documentation prose (regexes over a SKILL.md, a snapshot of doc wording) and the bot claims the test no longer matches the doc, or the reverse, run that test on the PR tip before classifying. A red run confirms the claim. A green run is a concrete disproof for the dismissal reply.
+- Skip when: Never skip the verification itself, which costs one command. When a PR ships a contract test that pins protocol or documentation prose (regexes over a SKILL.md, a snapshot of doc wording) and the reviewer claims the test no longer matches the doc, or the reverse, run that test on the PR tip before classifying. A red run confirms the claim. A green run is a concrete disproof for the dismissal reply.
 - Do not skip when: Not applicable. This is a verification shortcut, not a dismissal pattern. Repeat-pass lean-dismiss heuristics would misfire here, because prose-pinning tests drift precisely because earlier fix rounds edit the prose.
 - Example signal: "Contract test omits the pre-fix wait" on a PR whose earlier fix commits reworded the pinned passage, where the test run on the tip failed on exactly the cited assertion.
-- Source: one prose-pinning PR with eight Bugbot passes. The claim was real on pass 7 despite every earlier pass being fixed and resolved.
+- Source: one prose-pinning PR with eight review passes. The claim was real on pass 7 despite every earlier pass being fixed and resolved.
 
 ### Stale security-review finding already fixed later in the same PR
 
