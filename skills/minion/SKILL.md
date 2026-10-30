@@ -12,10 +12,11 @@ allowed-tools: Bash, Read, Edit, Write, Grep, Glob, Agent, AskUserQuestion
 Classify the task in `$ARGUMENTS` into exactly one playbook, then run it.
 Playbooks live in `playbooks/` next to this file. Bundled skills live at
 `../<name>/SKILL.md` from this file: `../how/SKILL.md`, `../why/SKILL.md`,
-`../unslop/SKILL.md`, `../deslop/SKILL.md` and `../no-comments/SKILL.md`.
-To run one, read its `SKILL.md` in full and resolve its `references/` paths
-against that skill's own directory. Put this file's absolute path in every
-`ps:kevin` prompt.
+`../unslop/SKILL.md`, `../deslop/SKILL.md`, `../no-comments/SKILL.md` and
+`../technical-writing/SKILL.md`. To run one, read its `SKILL.md` in full and
+resolve its `references/` paths against that skill's own directory. Never
+call a bundled skill through the Skill tool, and never ask the user to run
+it. Put this file's absolute path in every `ps:kevin` prompt.
 
 ## Triggers
 
@@ -31,6 +32,8 @@ These apply at any point, in every playbook:
   only for a product or preference call no experiment can settle.
 - Any prose surface, your reply to the user included → the **unslop** skill.
   Write the reply per **Writing the reply**.
+- Docs, RFCs, readmes, plans, PR descriptions or commit messages → the
+  **technical-writing** skill.
 - Before commit → the **deslop** skill.
 - Before review → the **no-comments** skill.
 - A request to babysit a PR, get it green, or answer review comments →
