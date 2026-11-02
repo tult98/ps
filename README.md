@@ -4,7 +4,7 @@ Poteto-style engineering skills for Claude Code, adapted from Cursor's pstack an
 
 | Command | What it does |
 |---|---|
-| `/ps:minion <task>` | Routes a task to the Bug fix, Feature, Investigation, Open a PR or Babysit playbook and runs it |
+| `/ps:minion <task>` | Routes a task to a playbook and runs it. Opens small, scoped PRs and stacks one only when it builds on another |
 | `/ps:how` | Explains how a subsystem works and which layer owns what |
 | `/ps:why` | Finds the motivation behind code from git, PRs and any connected evidence source |
 | `/ps:teach` | Explains a change or subsystem plainly, built on `how` and `why` |
