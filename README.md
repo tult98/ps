@@ -7,6 +7,7 @@ Poteto-style engineering skills for Claude Code, adapted from Cursor's pstack an
 | `/ps:minion <task>` | Routes a task to a playbook (bug fix, feature, refactoring, investigation, open a PR, babysit) and runs it. Opens small, scoped PRs and stacks one only when it builds on another |
 | `/ps:how` | Explains how a subsystem works and which layer owns what |
 | `/ps:why` | Finds the motivation behind code from git, PRs and any connected evidence source |
+| `/ps:architect <task>` | Sketches usage, types and module boundaries before code, designs it twice with parallel runners, picks and grafts one shape, then implements against it |
 | `/ps:teach` | Explains a change or subsystem plainly, built on `how` and `why` |
 | `/ps:recall [topic]` | Rebuilds your recent working context from chat history, live state and the shared record, then hands back a short brief |
 | `/ps:create-verification-skill` | Generates a repo-local `verify-<app>` skill that launches, drives and records the app, plus a feature map |
