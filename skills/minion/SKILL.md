@@ -11,8 +11,8 @@ allowed-tools: Bash, Read, Edit, Write, Grep, Glob, Agent, AskUserQuestion
 
 Match the task in `$ARGUMENTS` to a playbook, then run it. Playbooks live in
 `playbooks/` next to this file. Bundled skills live at `../<name>/SKILL.md`
-from this file: `../how/SKILL.md`, `../why/SKILL.md`, `../unslop/SKILL.md`,
-`../deslop/SKILL.md`, `../no-comments/SKILL.md` and
+from this file: `../how/SKILL.md`, `../why/SKILL.md`, `../architect/SKILL.md`,
+`../unslop/SKILL.md`, `../deslop/SKILL.md`, `../no-comments/SKILL.md` and
 `../technical-writing/SKILL.md`. To run one, read its `SKILL.md` in full and
 resolve its `references/` paths against that skill's own directory. Never
 call a bundled skill through the Skill tool, and never ask the user to run
@@ -35,6 +35,8 @@ These apply at any point, in every playbook:
   skill.
 - A question about why code is the way it is (a design choice, a regression,
   where a number came from) → the **why** skill.
+- A design with more than one plausible shape, or a refactor target that
+  crosses a function boundary → the **architect** skill.
 - About to ask the user "which approach", "how should I" or "what should this
   do" → first check whether running something can answer it (behavior,
   timing, layout, output). If it can, run it and let the result decide. Ask
