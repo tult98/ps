@@ -2,8 +2,8 @@
 
 **You own the PR. Commit, describe, open.**
 
-Reached in two ways: as the last step of Bug fix or Feature, or directly when
-the user asks to open a PR or MR.
+Reached in two ways: as the last step of Bug fix, Feature or Refactoring, or
+directly when the user asks to open a PR or MR.
 
 1. Find the repo that holds the changes. When it is a submodule, run git inside the submodule, never in the parent repo. If more than one submodule has changes, ask which.
 2. Pick the source and target. If the user named both ("develop -> staging"), use them as they are and skip step 3. Otherwise the target is the branch the work was cut from, which is not always the repo's default: the branch you checked out or created the work from, else the open PR's target when one exists, else the repo's default branch from `git remote show origin`, never an assumed `main`. If `git log --oneline <default>..HEAD` holds commits that are not this work, the branch has another base, so ask. Stack a PR only when it builds on another PR. Then the target is the parent PR's branch. An independent PR targets the default branch. If you are on the target branch with changes, create a branch first: the ticket key when there is one, else `<type>/<short-kebab-description>`.

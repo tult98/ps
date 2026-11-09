@@ -1,6 +1,6 @@
 ---
 name: minion
-description: Route a task to the Bug fix, Feature, Investigation, Open a PR, or Babysit playbook and run it. Use only when the user runs /ps:minion.
+description: Route a task to the Bug fix, Feature, Refactoring, Investigation, Open a PR, or Babysit playbook and run it. Use only when the user runs /ps:minion.
 user-invocable: true
 disable-model-invocation: true
 argument-hint: '<task description or issue key>'
@@ -68,13 +68,20 @@ describes.
   at the code or ticket to see whether Y was intended. File:
   `playbooks/bug-fix.md`.
 - **Feature.** New behavior, or a deliberate change to intended behavior.
-  Open a PR is its last step. File: `playbooks/feature.md`.
+  A deliberate behavior change bundled with a restructure is a Feature, and
+  the pure structural part goes to Refactoring first. Open a PR is its last
+  step. File: `playbooks/feature.md`.
+- **Refactoring.** Structure changes and behavior does not: restructure,
+  rename across callers, migrate off a legacy API, extract a module, delete
+  dead code. New behavior is a Feature. Broken behavior is a Bug fix. Open a
+  PR is its last step. File: `playbooks/refactoring.md`.
 - **Investigation.** An answer, not a change: how, why, where, "are we sure",
   or "should we X or Y". It stays an Investigation even if a change follows,
   because the change is a later task. It never opens a PR. File:
   `playbooks/investigation.md`.
 - **Open a PR.** A PR or MR for work that already exists. It is also the last
-  step of Bug fix and Feature, so "fix the crash and open a PR" is a Bug fix.
+  step of Bug fix, Feature and Refactoring, so "fix the crash and open a PR"
+  is a Bug fix.
   File: `playbooks/open-a-pr.md`.
 - **Babysit.** A PR to bring to merge-ready, with review threads answered and
   CI triaged. It never merges. After "open a PR and babysit it", run it once
