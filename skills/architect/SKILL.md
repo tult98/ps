@@ -21,7 +21,7 @@ Run the **how** skill over every subsystem the new code touches. Naming a file i
 
 ## Phase B: Sketch
 
-**Design it twice.** Get at least two structurally distinct whole-shape candidates, even when the first looks sufficient. A point fix inside one shape does not count. Spawn two or more `ps:kevin` runners in one message, one on `opus` and one on `fable`. Give each the task, [`references/runner-prompt.md`](references/runner-prompt.md) and the grounding by file path, plus its own directory `${TMPDIR:-/tmp}/architect-<slug>/candidate-<n>/`. Never a shared directory. If a model is rejected, run that seat on the closest model that works and say so. If both seats land on one model, give them different framings, such as "optimize for the smallest public API" and "optimize for the fewest moving parts".
+**Design it twice.** Get at least two structurally distinct whole-shape candidates, even when the first looks sufficient. A point fix inside one shape does not count. Spawn two `ps:kevin` runners in one message as background tasks. Do not pin a model, so they inherit the session's. Give each the task, [`references/runner-prompt.md`](references/runner-prompt.md) and the grounding by file path, plus its own directory `${TMPDIR:-/tmp}/architect-<slug>/candidate-<n>/`. Never a shared directory. Give the two runners different framings so they diverge, such as "optimize for the smallest public API" and "optimize for the fewest moving parts".
 
 **Pick.** While runners work, derive a rubric of 3 to 6 gradeable criteria from the task. Read every candidate end to end and screen it against [`references/design-red-flags.md`](references/design-red-flags.md). Assume the next contributor is an agent that copies the nearest example and takes the shortest path that compiles. Score criterion by criterion. Pick the base a future maintainer can extend most easily. On a tie, prefer the one that hides more behind a smaller public API.
 
@@ -31,13 +31,13 @@ Run the **how** skill over every subsystem the new code touches. Naming a file i
 
 The default is to proceed. Pause for sign-off only when the invoker asks, as in "show me before implementing".
 
-For a one-way-door design (a new module boundary, a public API, a data model), spawn one fresh `ps:kevin` on a different model than the base's author. Brief it to break the synthesized sketch, and keep only findings it shows with a concrete scenario. This is optional, and mandatory when the invoker asks for adversarial pressure.
+For a one-way-door design (a new module boundary, a public API, a data model), spawn one fresh `ps:kevin` as a background task. Brief it to break the synthesized sketch, and keep only findings it shows with a concrete scenario. This is optional, and mandatory when the invoker asks for adversarial pressure.
 
 Pushback on the shape is Phase A evidence. Re-ground and re-run Phase B before writing more code.
 
 ## Phase D: Implement against the sketch
 
-Delegate the fill-in to a `ps:kevin` per minion's Subagents section, with model and effort picked for the job. The sketch is the contract. The brief says to surface every deviation in the report, never absorb it. A parameter the sketch did not anticipate means the sketch was wrong, a requirement was missed, or the code overreaches. Decide which. Review the diff against the sketch yourself.
+Delegate the fill-in to a `ps:kevin` per minion's Subagents section. The sketch is the contract. The brief says to surface every deviation in the report, never absorb it. A parameter the sketch did not anticipate means the sketch was wrong, a requirement was missed, or the code overreaches. Decide which. Review the diff against the sketch yourself.
 
 ## Phase E: Scrap when the architecture is wrong
 
