@@ -12,7 +12,8 @@ allowed-tools: Bash, Read, Edit, Write, Grep, Glob, Agent, AskUserQuestion
 Match the task in `$ARGUMENTS` to a playbook, then run it. Playbooks live in
 `playbooks/` next to this file. Bundled skills live at `../<name>/SKILL.md`
 from this file: `../how/SKILL.md`, `../why/SKILL.md`, `../architect/SKILL.md`,
-`../unslop/SKILL.md`, `../deslop/SKILL.md`, `../no-comments/SKILL.md` and
+`../unslop/SKILL.md`, `../deslop/SKILL.md`, `../no-comments/SKILL.md`,
+`../laziness-protocol/SKILL.md`, `../test-behavior/SKILL.md` and
 `../technical-writing/SKILL.md`. To run one, read its `SKILL.md` in full and
 resolve its `references/` paths against that skill's own directory. Never
 call a bundled skill through the Skill tool, and never ask the user to run
@@ -45,6 +46,9 @@ These apply at any point, in every playbook:
   Write the reply per **Writing the reply**.
 - Docs, RFCs, readmes, plans, PR descriptions or commit messages → the
   **technical-writing** skill.
+- Writing, changing or keeping a test → the **test-behavior** skill.
+- Reviewing a diff before it ships, or tempted to add an abstraction, a layer
+  or an unrequested extra → the **laziness-protocol** skill.
 - Before commit → the **deslop** skill.
 - Before review → the **no-comments** skill.
 - A request to babysit a PR, get it green, or answer review comments →
